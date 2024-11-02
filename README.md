@@ -1,4 +1,4 @@
-# Template Playground
+# Unity Tutorial Projects
 
 <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
 
