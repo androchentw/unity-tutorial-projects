@@ -1,0 +1,61 @@
+using System;
+using RMC.Mini.Service;
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace RMC.Mini.Samples.RollABall.WithMini.Mini.Service
+{
+    //  Namespace Properties ------------------------------
+    public class LoadedUnityEvent : UnityEvent {}
+
+    /// <summary>
+    /// The Service handles external data 
+    /// </summary>
+    public class RollABallService : BaseService  // Extending 'base' is optional
+    {
+        //  Events ----------------------------------------
+        public readonly LoadedUnityEvent OnLoaded = new LoadedUnityEvent();
+
+        
+        //  Properties ------------------------------------
+        public int ScoreMax { get { return _scoreMax;} }
+        
+        
+        //  Fields ----------------------------------------
+        private int _scoreMax;
+
+        
+        //  Initialization  -------------------------------
+        public override void Initialize(IContext context)
+        {
+            if (!IsInitialized)
+            {
+                base.Initialize(context);
+                _scoreMax = 0;
+            }
+        }
+
+        
+        //  Methods ---------------------------------------
+        public void Load ()
+        {
+            RequireIsInitialized();
+
+            TextAsset textAsset = Resources.Load<TextAsset>("Texts/RollABallWithMiniTextAdvanced"); //txt file
+
+            if (textAsset == null)
+            {
+                Debug.LogError("Error: LoadAsync failed.");
+            }
+            else
+            {
+                _scoreMax = Int32.Parse(textAsset.ToString());
+                OnLoaded.Invoke();
+            }
+           
+        }
+        
+        //  Event Handlers --------------------------------
+
+    }
+}
